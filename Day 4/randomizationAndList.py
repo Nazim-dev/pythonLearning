@@ -1,12 +1,12 @@
-# import random
+import random
 
-# random_integer = random.randint(1,10)
+random_integer = random.randint(1,10)
 
-# print(random_integer)
+print(random_integer)
 
-# random_float = random.random()
+random_float = random.random()
 
-# print(random_float)
+print(random_float)
 
 
 windward_islands = ["Trinidad", "Grenada", "Saint Vincent", "Barbados", "Saint Lucia", "Dominica", "Martinique"]
