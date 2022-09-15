@@ -46,7 +46,8 @@ def sum_cards(hand):
     
     for i in hand:
         if i == 11 and amount > 21:
-            amount -= 10
+            hand.remove(11)
+            hand.append(1)
     return amount
 
 
