@@ -5,6 +5,8 @@ import random
 counter = 0
 score = 0
 
+print(logo)
+
 """Pulls people from the list"""
 
 def get_persons(score):
