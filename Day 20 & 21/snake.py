@@ -5,7 +5,6 @@ DOWN = 270
 LEFT = 180
 RIGHT= 0
 
-from shutil import move
 from turtle import Turtle
 
 class Snake:
@@ -16,11 +15,18 @@ class Snake:
 
     def create_snake(self):
         for pos in STARTING_POSITIONS:
-            snake = Turtle("square")
-            snake.color("white")
-            snake.up()
-            snake.goto(pos)
-            self.snake_parts.append(snake)
+            self.add_part(pos)
+    
+    def add_part(self, pos):
+        snake = Turtle("square")
+        snake.color("white")
+        snake.up()
+        snake.goto(pos)
+        self.snake_parts.append(snake)
+
+    def extend(self):
+        self.add_part(self.snake_parts[-1].position())
+
 
     def move(self):
         for snake_num in range(len(self.snake_parts) - 1, 0, -1):
