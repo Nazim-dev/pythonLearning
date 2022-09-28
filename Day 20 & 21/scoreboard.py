@@ -1,4 +1,4 @@
-from turtle import Turtle
+from turtle import Turtle, color
 
 class Scoreboard(Turtle):
 
@@ -13,7 +13,7 @@ class Scoreboard(Turtle):
         
 
     def update_scoreboard(self):
-        self.write(f"Score: {self.score}", align="center", font=("Arial", 15, "normal"))
+        self.write(f"Score: {self.score}", color="black" align="center", font=("Arial", 15, "normal"))
     
     def game_over(self):
         self.clear()
