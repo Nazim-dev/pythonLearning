@@ -2,6 +2,7 @@ from email import message
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 from numpy import pad
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -34,23 +35,55 @@ def create_password():
 
     pass_input.insert(0, password)
 
+# ---------------------------- FIND PASSWORD ------------------------------- #
+
+def find_password():
+    website = web_input.get()
+    try:
+        with open("Day 29/Account_info.json", "r") as file:
+            data = json.load(file)
+    
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="File doesn't exist")
+    
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message="Website doesn't exist in File")
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save_info():
-    email_info = email_input.get()
-    website_info = web_input.get()
-    password_info = pass_input.get()
+    email = email_input.get()
+    website = web_input.get()
+    password = pass_input.get()
+    new_data = {
+        website: {
+            "email": email,
+            "password": password,
+        }
+    }
 
-    if len(web_input) == 0 or len(pass_input) == 0:
+    if len(website) == 0 or len(password) == 0:
         messagebox.showinfo(title="Try again", message="Please fill all fields")
     else:
-        is_ok = messagebox.askokcancel(title=website, message="Are you sure all the info is correct?")
+        try:
+            with open("Day 29/Account_info.json", "r") as file:
+                data = json.load(file)
+                data.update(new_data)
 
-        if is_ok:
-            with open("Day 29/Account_info.txt", "a") as file:
-                file.write(f"{website_info} || {email_info} || {password_info} \n")
-                web_input.delete(0, END)
-                pass_input.delete(0, END)
+        except FileNotFoundError:
+            with open("Day 29/Account_info.json", "w") as file:
+                json.dump(new_data, file, indent= 4)
+                
+        else:
+            with open("Day 29/Account_info.json", "w") as file:
+                json.dump(data, file, indent= 4)
+        finally:
+            web_input.delete(0, END)
+            pass_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -66,9 +99,12 @@ canvas.grid(column=1, row=0)
 website = Label(text="Website: ", font=("Arial", 12))
 website.grid(column=0, row=1)
 
-web_input = Entry(width=35)
-web_input.grid(column=1 , row=1, columnspan=2)
+web_input = Entry(width=18)
+web_input.grid(column=1 , row=1)
 web_input.focus()
+
+search = Button(text="Search", width=15, command=find_password)
+search.grid(column=2, row=1)
 
 
 email = Label(text="Email/Username: ", font=("Arial", 12))
