@@ -1,5 +1,6 @@
 import smtplib
 import requests
+import time
 from datetime import datetime
 
 MY_LAT = 12.169174
@@ -35,16 +36,17 @@ def is_night():
     if time_now >= sunset or time_now <= sunrise:
         return True
 
-
-if is_iss_overhead() and is_night():
-    connection = smtplib.SMTP("smpt.office365.com")
-    connection.starttls()
-    connection.login("myemail@outlook.com", "123556asd")
-    connection.sendmail(
-        from_addr="myemail@outlook.com",
-        to_addrs="someone@gmail.com",
-        msg="Subject:ISS\n\n The ISS is close, go look at the sky"
-    )
+while True:
+    time.sleep(60)
+    if is_iss_overhead() and is_night():
+        connection = smtplib.SMTP("smpt.office365.com")
+        connection.starttls()
+        connection.login("myemail@outlook.com", "123556asd")
+        connection.sendmail(
+            from_addr="myemail@outlook.com",
+            to_addrs="someone@gmail.com",
+            msg="Subject:ISS\n\n The ISS is close, go look at the sky"
+        )
 
 
 
